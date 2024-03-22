@@ -1,0 +1,48 @@
+/* chart.css */
+
+body {
+    background: radial-gradient(#3F3F3F, #000000);
+}
+#chart {
+    background-color: #000000; /* Dark background */
+    padding: 30px; /* Space around the chart */
+    margin: auto;
+    align-self: auto;
+    align-content: center;
+    align-items: center;
+}
+
+.line {
+    stroke: #007bff; /* Blue line */
+    stroke-width: 2px;
+}
+
+.line.secondary {
+    stroke: #fd7e14; /* Orange line */
+    stroke-dasharray: 5, 5; /* Dashed line */
+}
+
+.tick path,
+.tick line,
+.tick text,
+.domain {
+    fill: none;
+    stroke: #FFFFFF;
+    shape-rendering: crispEdges;
+}
+
+.axis text {
+    font-size: 12px;
+}
+
+.label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.tooltip {
+    opacity: 0;
+    position: absolute;
+    z-index: 10;
+    background-color: #000000;
+}
