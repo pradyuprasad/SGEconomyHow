@@ -1,10 +1,12 @@
 const https = require('https');
 const fs = require('fs');
 
+const keyword = '*'
+
 
 const options = {
     hostname : 'tablebuilder.singstat.gov.sg',
-    path: '/api/table/tabledata/M015661',
+    path: '/api/table/resourceid/?keyword=' + keyword + '&searchOption=all',
     method: 'GET',
     headers: {
         'Content-Type': 'application/json',
@@ -13,7 +15,7 @@ const options = {
 }
 
 
-async function getGDP() {
+async function search() {
     return new Promise(resolve => {
         data = ''
         const request = https.request(options, (response) => {
@@ -33,56 +35,17 @@ async function getGDP() {
 }
 
 async function getCleanData() {
-    GDPJson = await getGDP()
-    data = GDPJson.Data.row
-    console.log(data)
-    /*clean_data = data.map(cleankeys) 
-    console.log(clean_data)
-    return clean_data*/
-
-}
-
-function cleankeys(row) {
-    key = row.key
-
-
-    const quarters = {
-      "1Q": "03-31",
-      "2Q": "06-30",  
-      "3Q": "09-30",
-      "4Q": "12-30"
-    };
-  
-    const [year, quarter] = key.split(" ");
-    
-    if(!quarters[quarter]) {
-      return undefined; 
-    }
-
-
-    
-   
-
-    DateString = `${year}-${quarters[quarter]}`
-
-    value = parseFloat(row.value)
-  
-    return {date : DateString, value: value};
-  
-  }
-
-async function main() {
-   /* data = await getCleanData()
-    const jsonData = JSON.stringify(data, null, 2);
-    try {
-        fs.writeFileSync('GDP.json', jsonData);
-        console.log('Data written to file');
-    } catch (err) {
-        console.error('Error writing to file:', err);
+    GDPJson = await search()
+    datasets = GDPJson.Data.records 
+    console.log(datasets)
+    /*for (i = 0; i < datasets.length; i++) {
+        print(i)
     }*/
-
-    getCleanData()
-    
 }
 
-main()
+
+
+
+
+getCleanData()
+ 

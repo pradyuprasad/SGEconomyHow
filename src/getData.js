@@ -34,10 +34,11 @@ async function getGDP() {
 
 async function getCleanData() {
     GDPJson = await getGDP()
-    data = GDPJson.Data.row[0].columns
-    clean_data = data.map(cleankeys) 
-    console.log(clean_data)
-    return clean_data
+    data = GDPJson.Data
+    console.log(data)
+    /*clean_data = data.map(cleankeys) 
+    console.log(clean_data)*/
+    //return clean_data
 
 }
 
@@ -70,7 +71,7 @@ function cleankeys(row) {
   
   }
 
-async function main() {
+/*async function main() {
     data = await getCleanData()
     const jsonData = JSON.stringify(data, null, 2);
     try {
@@ -82,4 +83,6 @@ async function main() {
     
 }
 
-main()
+main()*/
+
+getCleanData()
