@@ -1,9 +1,21 @@
 const margin = {top: 20, right: 20, bottom: 30, left: 70};
 
-chart("data.json","data2.json","data3.json");
+let legend;
+async function shoot() {
+await fetch('legend.json')
+    .then(response => response.json()) // Parse the response as JSON
+    .then(data => {
+     legend = data;
+    })
+    .catch(error => {
+        // Handle errors
+        console.error('Error fetching JSON file: legend', error);
+    });
+chart(legend);
+}
+shoot();
 
-
-function chart(...datasets) {
+function chart(datasets) {
 
     const width = 960 - margin.left - margin.right ;
     const height = 500 - margin.top - margin.bottom;
@@ -15,7 +27,7 @@ function chart(...datasets) {
         .append("g")
         .attr("transform", `translate(${margin.left},${margin.top})`);
 
-    const promises = datasets.map(d => d3.json(d)); // Load all datasets asynchronously
+    const promises = datasets.map(d => d3.json(d.dataset)); // Load all datasets asynchronously
 
     Promise.all(promises).then(data => {
         // Combine data processing for all datasets
@@ -82,7 +94,7 @@ function chart(...datasets) {
                 .attr("text-anchor", "middle")
                 .attr("dominant-baseline", "middle")
                 .style("fill", d3.schemeCategory10[index])
-                .text("Label" + index);
+                .text(datasets[index].name);
 
         });
 
