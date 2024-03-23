@@ -1,11 +1,11 @@
 const margin = {top: 20, right: 20, bottom: 30, left: 70};
 
-chart("data2.json","data3.json");
+chart("data.json","data2.json","data3.json");
 
 
 function chart(...datasets) {
 
-    const width = 960 - margin.left - margin.right;
+    const width = 960 - margin.left - margin.right ;
     const height = 500 - margin.top - margin.bottom;
 
     const svg = d3.select("#chart")
@@ -71,19 +71,23 @@ function chart(...datasets) {
                         .style("opacity", 0);
                 });
 
+            const LabelPos = dataset[dataset.length-1];
+            const X = xScale(LabelPos.date) + 30;
+            const Y = yScale(LabelPos.value);
+
+// Append a single text element for the label
+            svg.append("text")
+                .attr("x", X )
+                .attr("y", Y)
+                .attr("text-anchor", "middle")
+                .attr("dominant-baseline", "middle")
+                .style("fill", d3.schemeCategory10[index])
+                .text("Label" + index);
+
         });
 
 
-        const X = xScale(data[0][data[0].length-1].date);
-        const Y = yScale(data[0][data[0].length-1].value);
 
-// Append a single text element for the label
-        svg.append("text")
-            .attr("x", X )
-            .attr("y", Y)
-            .attr("text-anchor", "middle")
-            .attr("dominant-baseline", "middle")
-            .text("Label");
 
         // Add axes
         svg.append("g")

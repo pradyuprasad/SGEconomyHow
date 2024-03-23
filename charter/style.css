@@ -4,10 +4,12 @@ body {
     background: radial-gradient(#3F3F3F, #000000);
 }
 #chart {
-    background-color: #000000; /* Dark background */ /* Space around the chart */
+    background-color: #000000; /* Dark background */
+    padding: 30px;/* Space around the chart */
     align-self: auto;
     align-content: center;
     align-items: center;
+    overflow: visible;
 }
 
 .line {
@@ -43,4 +45,9 @@ body {
     position: absolute;
     z-index: 10;
     background-color: #000000;
+}
+
+svg:not(:root) {
+    overflow-clip-margin: 30px;
+    overflow: visible;
 }
