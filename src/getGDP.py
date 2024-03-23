@@ -34,16 +34,12 @@ def get_clean_data():
         if len(row['columns']) != 0:
             cleaned_data = [clean_keys(column) for column in row['columns']]
             print(row['rowText'])
-            for data in cleaned_data:
-                if data:  # Ensure data is not None
-                    print(data)
-        else:
-            print(f"Row {row['rowText']} has no columns")
+            
+        
 
 def main():
     get_clean_data()
-    # Here, you would typically write the cleaned data to a file or process it further.
-    # This step is skipped as the original code does not actually write to a file due to the commented out part.
+
 
 if __name__ == "__main__":
     main()
