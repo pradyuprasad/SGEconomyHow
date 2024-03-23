@@ -1,55 +1,20 @@
 const margin = {top: 20, right: 20, bottom: 30, left: 70};
-const width = 960 - margin.left - margin.right;
-const height = 500 - margin.top - margin.bottom;
 
-const svg = d3.select("#chart")
-    .append("svg")
-    .attr("width", width + margin.left + margin.right)
-    .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-    .attr("transform", `translate(${margin.left},${margin.top})`);
-
-
-chart("data.json","data2.json","data3.json");
-function chart(dataset) {
-    d3.json(dataset).then(data => {
-        const parseTime = d3.timeParse("%Y-%m-%d");
-
-        data.forEach(d => {
-            d.date = parseTime(d.date);
-        });
-
-        const xScale = d3.scaleTime()
-            .domain(d3.extent(data, d => d.date))
-            .range([0, width]);
-
-        const yScale = d3.scaleLinear()
-            .domain([0, d3.max(data, d => d.value)])
-            .range([height, 0]);
-
-        const line = d3.line()
-            .x(d => xScale(d.date))
-            .y(d => yScale(d.value));
-
-        svg.append("path")
-            .datum(data)
-            .attr("fill", "none")
-            .attr("stroke", "steelblue")
-            .attr("stroke-width", 1.5)
-            .attr("d", line);
-
-        svg.append("g")
-            .attr("transform", `translate(0,${height})`)
-            .call(d3.axisBottom(xScale));
-
-        svg.append("g")
-            .call(d3.axisLeft(yScale));
-    });
-}
-
+chart("data2.json","data3.json");
 
 
 function chart(...datasets) {
+
+    const width = 960 - margin.left - margin.right;
+    const height = 500 - margin.top - margin.bottom;
+
+    const svg = d3.select("#chart")
+        .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+
     const promises = datasets.map(d => d3.json(d)); // Load all datasets asynchronously
 
     Promise.all(promises).then(data => {
@@ -84,7 +49,7 @@ function chart(...datasets) {
 
                     // Find the closest data point to the mouse position
                     const closestDataPoint = dataset.find(point => {
-                        const distance = Math.abs(xScale(point.date) - mouseX);
+                        const distance = Math.abs(xScale(point.date) - mouseX + 70);
                         return distance < 10; // Adjust threshold as needed
                     });
 
@@ -105,7 +70,20 @@ function chart(...datasets) {
                         .duration(500)
                         .style("opacity", 0);
                 });
+
         });
+
+
+        const X = xScale(data[0][data[0].length-1].date);
+        const Y = yScale(data[0][data[0].length-1].value);
+
+// Append a single text element for the label
+        svg.append("text")
+            .attr("x", X )
+            .attr("y", Y)
+            .attr("text-anchor", "middle")
+            .attr("dominant-baseline", "middle")
+            .text("Label");
 
         // Add axes
         svg.append("g")
@@ -114,5 +92,10 @@ function chart(...datasets) {
 
         svg.append("g")
             .call(d3.axisLeft(yScale));
+
+
     });
+
+
+
 }

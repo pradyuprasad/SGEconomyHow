@@ -4,9 +4,7 @@ body {
     background: radial-gradient(#3F3F3F, #000000);
 }
 #chart {
-    background-color: #000000; /* Dark background */
-    padding: 30px; /* Space around the chart */
-    margin: auto;
+    background-color: #000000; /* Dark background */ /* Space around the chart */
     align-self: auto;
     align-content: center;
     align-items: center;
